@@ -162,11 +162,11 @@ service:
     enabled: false
 # Ingress configuration
 ingress:
-  enabled: false ###
+  enabled: true ###
   className: nginx
   secretName: "tls-secret"
   hosts:
-    - host: slashtecapp-public.cloud
+    - host: ghadeer.jordanclouds.com
       http:
         paths:
           - backend:
@@ -176,16 +176,7 @@ ingress:
                   number: 80
             path: /
             pathType: ImplementationSpecific
-    - host: slashtecapp-internal.cloud
-      http:
-        paths:
-          - backend:
-              service:
-                name: *nameOverride
-                port:
-                  number: 80
-            path: /
-            pathType: ImplementationSpecific
+
   tls:
     enabled: true
 # ExternalSecret configuration

@@ -1,0 +1,60 @@
+# ⚠️  CRITICAL: Always use correct variable paths in Helm templates
+#    Wrong paths cause "nil pointer evaluating interface {}.tag" errors
+#    Use 'helm template test .' to validate templates before deployment
+{{- if .Values.deployment.enabled }}
+{{- $values := . }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}
+  {{- if .Values.goDBMigration.enabled }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+  {{- end }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.deployment.replicaCount }}
+  {{- end }}
+  revisionHistoryLimit: {{ .Values.deployment.revisionHistoryLimit }}
+  {{- with .Values.deployment.strategy }}
+  strategy: 
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.deployment.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          # ✅  CORRECT: Use .Values.deployment.image.* for image configuration
+          #    Wrong: .Values.image.* (causes nil pointer errors)
+          image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
+          ports:
+            # ✅  CORRECT: Use proper service port reference
+            #    Wrong: .Values.service.port (causes template errors)
+            - containerPort: {{ (index .Values.service.port 0).targetPort }}
+          envFrom:
+            # ⚠️  CRITICAL: ConfigMap name must match the actual generated ConfigMap name
+            #    Use '{{ include "app.fullname" . }}-config' not '{{ include "app.fullname" . }}'
+            #    Wrong configmap name causes "CreateContainerConfigError: configmap not found"
+            - configMapRef:
+                name: {{ include "app.fullname" . }}-config
+            - secretRef:
+                name: {{ include "app.fullname" . }}
+          # ✅  CORRECT: Use .Values.deployment.resources for resource limits
+          #    Wrong: .Values.resources (causes nil pointer errors)
+          resources:
+            {{- toYaml .Values.deployment.resources | nindent 12 }}
+{{- end }}

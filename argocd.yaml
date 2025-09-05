@@ -1,0 +1,30 @@
+# ⚠️  CRITICAL: Always ensure the 'path' field is specified in ArgoCD applications
+#    Without this field, ArgoCD will fail with "InvalidSpecError: spec.source.repoURL and either spec.source.path or spec.source.chart are required"
+#    This field tells ArgoCD where to find the Helm chart in your repository
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ghadeerweb
+  namespace: argocd
+spec:
+  # ⚠️  IMPORTANT: Ensure destination namespace matches where your application actually runs
+  #    If your app runs in 'default' namespace, set this to 'default', not 'preprod'
+  #    Mismatched namespaces cause ArgoCD to show "Missing" status for resources
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    # ✅  CORRECT: This path points to the 'helm' directory containing your Helm chart
+    path: helm
+    repoURL: git@github.com:ghadeerhamdan-cmd/bashtask.git
+    targetRevision: main
+  # ⚠️  ADVICE: Automated sync with self-healing ensures your cluster stays in sync with Git
+  #    prune: true - removes resources that no longer exist in Git
+  #    selfHeal: true - automatically corrects drift from desired state
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

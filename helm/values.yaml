@@ -179,7 +179,7 @@ ingress:
                 port:
                   number: 80
   tls:
-    enabled: true
+    enabled: false
     secretName: tls-secret
     hosts:
       - ghadeer.jordanclouds.com

@@ -162,23 +162,28 @@ service:
     enabled: false
 # Ingress configuration
 ingress:
-  enabled: true ###
+  enabled: true
   className: nginx
-  secretName: "tls-secret"
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
   hosts:
     - host: ghadeer.jordanclouds.com
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: *nameOverride
                 port:
                   number: 80
-            path: /
-            pathType: ImplementationSpecific
-
   tls:
     enabled: true
+    secretName: tls-secret
+    hosts:
+      - ghadeer.jordanclouds.com
+
 # ExternalSecret configuration
 externalSecret:
   enabled: false

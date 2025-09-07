@@ -25,3 +25,11 @@ spec:
       {{- toYaml . | nindent 4 }}
     {{- end }}
 {{- end }}
+{{- if .Values.ingress.tls.enabled }}
+tls:
+  - hosts:
+      {{- range .Values.ingress.tls.hosts }}
+      - {{ . | quote }}
+      {{- end }}
+    secretName: {{ .Values.ingress.tls.secretName }}
+{{- end }}

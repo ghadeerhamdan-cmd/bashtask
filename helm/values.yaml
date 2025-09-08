@@ -73,8 +73,8 @@ deployment:
       memory: 256Mi
       cpu: 50m
     limits:
-      memory: 3000Mi
-      cpu: 1000m
+      memory: 512Mi
+      cpu: 600m
   nodeSelector: {}
   tolerations: []
   # ⚠️  ADVICE: Always test node affinity configuration before deployment

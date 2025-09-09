@@ -39,7 +39,7 @@ deployment:
   image:
     repository: 727245885999.dkr.ecr.ap-south-1.amazonaws.com/ghadeerecr
     pullPolicy: Always
-    tag: "preprod-13"
+    tag: "preprod-14"
   volumeMounts:
     - mountPath: /etc/localtime
       name: tz-config

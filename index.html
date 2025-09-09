@@ -4,25 +4,125 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Me</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #74ebd5, #ACB6E5);
+      color: #333;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    header {
+      text-align: center;
+      padding: 50px 20px;
+      color: white;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      animation: slideDown 1.5s ease-out;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      animation: fadeIn 3s ease-in;
+    }
+
+    section {
+      background: white;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s;
+    }
+
+    section:hover {
+      transform: scale(1.02);
+    }
+
+    h2 {
+      color: #4e54c8;
+      border-left: 5px solid #4e54c8;
+      padding-left: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      padding: 8px 0;
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    ul li:hover {
+      transform: translateX(10px);
+      color: #4e54c8;
+    }
+
+    a {
+      color: #4e54c8;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: #ff6b6b;
+    }
+
+
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @keyframes slideDown {
+      from {transform: translateY(-50px); opacity: 0;}
+      to {transform: translateY(0); opacity: 1;}
+    }
+  </style>
 </head>
-<body style="font-family: Arial, sans-serif; margin: 40px;">
+<body>
 
-  <h1>Hello, I'm Ghadeer Hamdan 👋</h1>
-  <p>Welcome to my personal page!</p>
+  <header>
+    <h1>👋 Hello, I'm Ghadeer Hamdan</h1>
+    <p>Welcome to my personal page!</p>
+  </header>
 
-  <h2>About Me</h2>
-  <p>
-    I am passionate about technology, DevOps, and continuous learning.  
-    I enjoy working on cloud projects, Kubernetes, and automation.
-  </p>
+  <section>
+    <h2>About Me</h2>
+    <p>
+      I am passionate about technology, DevOps, and continuous learning.  
+      I enjoy working on cloud projects, Kubernetes, and automation.
+    </p>
+  </section>
 
-  <h2>My Interests</h2>
-  <ul>
-    <li>Cloud Computing (AWS, Azure, GCP)</li>
-    <li>DevOps Tools (Docker, Kubernetes, Jenkins)</li>
-    <li>Automation & Scripting</li>
-    <li>Learning and sharing knowledge</li>
-  </ul>
-    
-</body>
+  <section>
+    <h2>My Interests</h2>
+    <ul>
+      <li>☁️ Cloud Computing (AWS, Azure, GCP)</li>
+      <li>⚙️ DevOps Tools (Docker, Kubernetes, Jenkins)</li>
+      <li>🤖 Automation & Scripting</li>
+      <li>📚 Learning and sharing knowledge</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:yourname@example.com">yourname@example.com</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/yourprofile" target="_blank">My LinkedIn</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 Ghadeer Hamdan | All Rights Reserved
+  </footer>
+  </body>
 </html>
